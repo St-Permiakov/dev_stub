@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
+    <title>Stub Server</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+    <link rel="stylesheet" href="assets/main.css">
+    <script src="libs/ace/ace.js" type="text/javascript" charset="utf-8" defer></script>
+    <script src="assets/main.js" type="text/javascript" charset="utf-8" defer></script>
+</head>
+<body>
+<div class="wrapper">
+    <h1>Req sender</h1>
+
+    <form action="#" class="form js-form">
+        <div class="input-block">
+            <label for="url">URL:</label>
+            <input
+                type="text"
+                name="url"
+                id="url"
+                placeholder="URL"
+                required
+            />
+            *
+        </div>
+
+        <div class="input-block">
+            <label for="stub-name">STUB NAME</label>
+            <input
+                type="text"
+                name="stub_name"
+                id="stub-name"
+                placeholder="Stub name"
+                required
+            />
+            *
+        </div>
+
+        <div class="input-block">
+            <label for="body">BODY:</label>
+            <pre id="body">{
+    "success": true,
+    "data": {}
+}</pre>
+        </div>
+
+        <div class="buttons">
+            <button type="button" class="js-create-stub">Create stub</button>
+            <button type="button" class="js-get-stub-list">Get stub list</button>
+            <button type="button" class="js-get-urls-list">Get urls list</button>
+        </div>
+    </form>
+
+    <div class="error js-error" hidden></div>
+
+    <div class="response js-response" id="response"></div>
+
+    <div class="buttons">
+        <button type="button" class="js-clear-results">Clear results</button>
+    </div>
+</div>
+</body>
+</html>
