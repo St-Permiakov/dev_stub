@@ -17,7 +17,7 @@ const request = ({ url, method, data }, cb = () => {}) => {
     });
     req.open(method, url, true);
     req.setRequestHeader('Content-type', 'application/json');
-    req.send(JSON.stringify(data));
+    req.send(typeof data !== 'string' ? JSON.stringify(data) : data);
 
     return req;
 };

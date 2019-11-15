@@ -8,29 +8,22 @@ const paths = {
 
 const getStubNamesFromDir = (dirPath) => fs.readdirSync(dirPath, (err, files) => files);
 
-const readFiles = (dirname, onFileContent = () => {}, onError = () => {}) => new Promise((resolve) => {
+const readFiles = (dirname) => new Promise((resolve, reject) => {
     fs.readdir(dirname, (err, filenames) => {
-        if (err) {
-            onError(err);
-            return;
-        }
+        if (err) reject(err);
 
-        const fileData = {};
+        const fileReaders = filenames.map((filename) => new Promise((resolve, reject) => {
+            fs.readFile(`${dirname}/${filename}`, 'utf-8', (err, content) => {
+                if (err) reject(err);
 
-        filenames.forEach((filename) => {
-            // fs.readFile(`${dirname}/${filename}`, 'utf-8', (err, content) => {
-            //     if (err) {
-            //         onError(err);
-            //         return;
-            //     }
-            //     console.log(content);
-            //     fileData[filename] = content ? JSON.parse(content) : null;
-            //     onFileContent(filename, content);
-            // });
-            fileData[filename] = fs.readFileSync(`${dirname}/${filename}`, 'utf-8');
+                resolve({ filename, content: content ? JSON.parse(content) : null });
+            });
+        }));
+
+
+        Promise.all(fileReaders).then((files) => {
+            resolve(files);
         });
-
-        resolve(fileData);
     });
 });
 
@@ -66,10 +59,12 @@ module.exports = (app, db = {}) => {
 
     app.get('/get-urls-list', (req, res) => {
         const dirPath = path.join(`${__dirname}${paths.stubs}`);
-        readFiles(dirPath).then((data) => {
+        readFiles(dirPath).then((files) => {
             res.json({
                 success: true,
-                data
+                data: {
+                    files
+                }
             });
         });
     });
